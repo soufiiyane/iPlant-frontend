@@ -1,0 +1,39 @@
+name: Selenium Tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  run-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the repository
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      # Set up Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      # Install dependencies
+      - name: Install Dependencies
+        run: npm install
+
+      # Run tests
+      - name: Run Selenium Tests
+        run: npm test
+        env:
+          CI: true
+
+      # Upload Test Report
+      - name: Upload Test Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: selenium-test-report
+          path: iPlant-tests-report/
