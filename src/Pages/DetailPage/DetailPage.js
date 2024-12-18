@@ -1,11 +1,120 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
+import { Disclosure, Transition } from '@headlessui/react';
 
+// Comment Form Component
+const CommentForm = ({ plantId, onCommentAdded }) => {
+  const [comment, setComment] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const user = JSON.parse(localStorage.getItem('user'));
+    
+    if (!user) {
+      navigate('/login', { state: { from: `/plant/${plantId}` } });
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      const response = await fetch('https://ssmb5oqxxa.execute-api.us-east-1.amazonaws.com/dev/comments', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          plantId,
+          text: comment,
+          userId: user.id
+        })
+      });
+
+      if (!response.ok) throw new Error('Failed to post comment');
+
+      onCommentAdded();
+      setComment('');
+    } catch (error) {
+      console.error('Error posting comment:', error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="mt-6">
+      <div className="flex flex-col space-y-3">
+        <textarea
+          value={comment}
+          onChange={(e) => setComment(e.target.value)}
+          placeholder="Ajouter un commentaire..."
+          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 resize-none h-24"
+          required
+        />
+        <button
+          type="submit"
+          disabled={isSubmitting}
+          className="inline-flex justify-center items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          {isSubmitting ? (
+            <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+          ) : null}
+          {isSubmitting ? 'Envoi...' : 'Publier le commentaire'}
+        </button>
+      </div>
+    </form>
+  );
+};
+
+// Accordion Section Component
+const AccordionSection = ({ title, items }) => (
+  <Disclosure as="div" className="mt-4">
+    {({ open }) => (
+      <div className="bg-white rounded-lg shadow-sm">
+        <Disclosure.Button className="flex justify-between w-full px-4 py-3 text-lg font-medium text-left text-gray-900 bg-gray-50 rounded-lg hover:bg-gray-100 focus:outline-none focus-visible:ring focus-visible:ring-emerald-500 focus-visible:ring-opacity-50">
+          <span>{title}</span>
+          <svg
+            className={`${open ? 'transform rotate-180' : ''} w-5 h-5 text-gray-500 transition-transform duration-200`}
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+          </svg>
+        </Disclosure.Button>
+        <Transition
+          show={open}
+          enter="transition duration-100 ease-out"
+          enterFrom="transform scale-95 opacity-0"
+          enterTo="transform scale-100 opacity-100"
+          leave="transition duration-75 ease-out"
+          leaveFrom="transform scale-100 opacity-100"
+          leaveTo="transform scale-95 opacity-0"
+        >
+          <Disclosure.Panel className="px-4 py-3">
+            <ul className="space-y-2">
+              {(items || []).map((item, index) => (
+                <li key={index} className="text-gray-600">• {item?.S || 'N/A'}</li>
+              ))}
+            </ul>
+          </Disclosure.Panel>
+        </Transition>
+      </div>
+    )}
+  </Disclosure>
+);
+
+// Main DetailPage Component
 const DetailPage = () => {
-  const { id } = useParams(); // Get the plant ID from the URL
+  const { id } = useParams();
   const [plant, setPlant] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [refreshComments, setRefreshComments] = useState(0);
 
   useEffect(() => {
     const fetchPlantDetails = async () => {
@@ -22,93 +131,102 @@ const DetailPage = () => {
     };
 
     fetchPlantDetails();
-  }, [id]);
+  }, [id, refreshComments]);
+
+  const handleCommentAdded = () => {
+    setRefreshComments(prev => prev + 1);
+  };
 
   if (loading) return (
     <div className="flex justify-center items-center min-h-screen">
-      <div className="spinner"></div>
+      <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-emerald-500"></div>
     </div>
   );
 
   if (error) return (
-    <div className="text-center text-red-500 mt-10">
-      Erreur de chargement: {error}
+    <div className="flex justify-center items-center min-h-screen">
+      <div className="text-center p-8 bg-red-50 rounded-lg">
+        <h2 className="text-red-600 text-xl font-semibold">Erreur de chargement</h2>
+        <p className="text-red-500 mt-2">{error}</p>
+      </div>
     </div>
   );
 
+  if (!plant) return null;
+
   return (
-    <div className="mx-auto max-w-4xl px-4 md:px-8 xl:px-0">
-      <Link to="/" className="text-emerald-600 hover:underline">Retour</Link>
-      <div className="mt-8">
-        <img 
-          src={plant.ImageS3Url} 
-          alt={plant.Name} 
-          className="w-full h-96 object-cover rounded-lg"
-        />
-        <h1 className="text-3xl font-bold mt-6">{plant.Name}</h1>
-        <p className="text-lg mt-4">{plant.Description}</p>
+    <div className="min-h-screen bg-gray-50 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <Link 
+          to="/" 
+          className="inline-flex items-center text-emerald-600 hover:text-emerald-700 transition-colors duration-200 mb-8"
+        >
+          <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+          Retour
+        </Link>
 
-        <h3 className="mt-6 font-semibold text-xl">Propriétés</h3>
-        <ul className="list-disc pl-5 mt-2">
-          {plant.Properties.map((property, index) => (
-            <li key={index}>{property.S}</li>
-          ))}
-        </ul>
+        <div className="bg-white rounded-xl shadow-lg overflow-hidden">
+          <div className="md:flex">
+            <div className="md:w-1/2">
+              <div className="relative h-[600px]">
+                <img 
+                  src={plant?.ImageS3Url || ''} 
+                  alt={plant?.Name || 'Plant Image'} 
+                  className="absolute w-full h-full object-cover"
+                />
+              </div>
+            </div>
 
-        <h3 className="mt-6 font-semibold text-xl">Régions</h3>
-        <ul className="list-disc pl-5 mt-2">
-          {plant.Region.map((region, index) => (
-            <li key={index}>{region.S}</li>
-          ))}
-        </ul>
+            <div className="md:w-1/2 p-8">
+              <h1 className="text-4xl font-bold text-gray-900 mb-4">{plant?.Name || 'Unknown Plant'}</h1>
+              <p className="text-gray-600 mb-8 leading-relaxed">{plant?.Description || 'No description available'}</p>
 
-        <h3 className="mt-6 font-semibold text-xl">Utilisations</h3>
-        <ul className="list-disc pl-5 mt-2">
-          {plant.Uses.map((use, index) => (
-            <li key={index}>{use.S}</li>
-          ))}
-        </ul>
+              <div className="space-y-4">
+                <AccordionSection title="Propriétés" items={plant?.Properties} />
+                <AccordionSection title="Régions" items={plant?.Region} />
+                <AccordionSection title="Utilisations" items={plant?.Uses} />
+                <AccordionSection title="Précautions" items={plant?.Precautions} />
+              </div>
 
-        <h3 className="mt-6 font-semibold text-xl">Précautions</h3>
-        <ul className="list-disc pl-5 mt-2">
-          {plant.Precautions.map((precaution, index) => (
-            <li key={index}>{precaution.S}</li>
-          ))}
-        </ul>
-
-        <h3 className="mt-6 font-semibold text-xl">Articles</h3>
-        <ul className="mt-2">
-          {plant.Articles.map((article, index) => (
-            <li key={index}>
-              <a href={article.S} target="_blank" rel="noopener noreferrer" className="text-emerald-600 hover:underline">
-                {article.S}
-              </a>
-            </li>
-          ))}
-        </ul>
-
-        <h3 className="mt-6 font-semibold text-xl">Commentaires</h3>
-        {plant.Comments.length === 0 ? (
-          <p className="text-gray-500">Aucun commentaire</p>
-        ) : (
-          <ul className="mt-2">
-            {plant.Comments.map((comment, index) => (
-              <li key={index} className="mb-4">
-                <div className="flex items-center">
-                  <img 
-                    src={comment.M.UserImageUrl.M.S} 
-                    alt={comment.M.FirstName.M.S} 
-                    className="w-10 h-10 rounded-full object-cover mr-3"
-                  />
-                  <div>
-                    <p className="font-semibold">{comment.M.FirstName.M.S} {comment.M.LastName.M.S}</p>
-                    <p>{comment.M.Text.M.S}</p>
+              <div className="mt-8">
+                <h3 className="text-xl font-semibold mb-4 text-gray-900">Commentaires</h3>
+                
+                <CommentForm plantId={id} onCommentAdded={handleCommentAdded} />
+                
+                {(plant?.Comments || []).length === 0 ? (
+                  <p className="text-gray-500 italic mt-4">Aucun commentaire</p>
+                ) : (
+                  <div className="space-y-4 mt-6">
+                    {plant?.Comments.map((comment, index) => (
+                      <div key={index} className="bg-gray-50 rounded-lg p-4 transition-all hover:bg-gray-100">
+                        <div className="flex items-start">
+                          <img 
+                            src={comment?.M?.UserImageUrl?.S || '/default-avatar.png'} 
+                            alt={`${comment?.M?.FirstName?.S || 'Unknown'} ${comment?.M?.LastName?.S || ''}`} 
+                            className="w-10 h-10 rounded-full object-cover mr-3 flex-shrink-0"
+                          />
+                          <div className="flex-1">
+                            <div className="flex items-center justify-between">
+                              <p className="font-semibold text-gray-900">
+                                {comment?.M?.FirstName?.S || 'Anonymous'} {comment?.M?.LastName?.S || ''}
+                              </p>
+                              <span className="text-sm text-gray-500">
+                                {new Date(comment?.M?.CreatedAt?.S).toLocaleDateString()}
+                              </span>
+                            </div>
+                            <p className="text-gray-600 mt-1">{comment?.M?.Text?.S || ''}</p>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
                   </div>
-                </div>
-              </li>
-            ))}
-          </ul>
-        )}
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
