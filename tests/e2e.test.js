@@ -10,6 +10,7 @@ describe('React App E2E Tests', function() {
     options.addArguments('--headless');
     options.addArguments('--no-sandbox');
     options.addArguments('--disable-dev-shm-usage');
+    options.addArguments('--disable-gpu');
 
     driver = await new Builder()
       .forBrowser('chrome')
@@ -18,12 +19,21 @@ describe('React App E2E Tests', function() {
   });
 
   after(async function() {
-    await driver.quit();
+    if (driver) {
+      await driver.quit();
+    }
   });
 
   it('should load the homepage', async function() {
-    await driver.get('http://localhost:3000');
-    const title = await driver.getTitle();
-    assert.strictEqual(title, 'React App');
+    try {
+      await driver.get('http://localhost:3000');
+      // Wait for some element that you know exists on your page
+      await driver.wait(until.elementLocated(By.css('body')), 10000);
+      const title = await driver.getTitle();
+      assert.strictEqual(title, 'React App'); // Make sure this matches your actual page title
+    } catch (error) {
+      console.error('Test failed:', error);
+      throw error;
+    }
   });
 });

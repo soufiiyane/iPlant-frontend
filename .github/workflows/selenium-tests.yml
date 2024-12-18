@@ -29,26 +29,23 @@ jobs:
     - name: Install dependencies
       run: npm install
 
-    - name: Install Chrome
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y google-chrome-stable
+    - name: Setup Chrome
+      uses: browser-actions/setup-chrome@latest
+      with:
+        chrome-version: stable
 
     - name: Start React app
-      run: npm start & 
-      env:
-        CI: false
-
-    - name: Wait for app to start
       run: |
+        npm start &
         echo "Waiting for app to start..."
         sleep 30
+      env:
+        CI: false
 
     - name: Run Selenium tests
       run: npm test
       env:
-        SELENIUM_BROWSER: chrome
-        SELENIUM_REMOTE_URL: http://localhost:4444/wd/hub
+        CI: true
 
     - name: Upload test results
       if: always()
