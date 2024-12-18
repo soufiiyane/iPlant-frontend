@@ -1,66 +1,50 @@
-name: Run Selenium Tests
+name: Selenium Tests
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
   pull_request:
+    branches: [ main ]
 
 jobs:
-  run-tests:
+  test:
     runs-on: ubuntu-latest
 
     steps:
-      # Checkout the repository
-      - name: Checkout Code
-        uses: actions/checkout@v3
+    - uses: actions/checkout@v2
 
-      # Set up Node.js
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '18'
 
-      # Install Chrome and Dependencies
-      - name: Install Chrome Dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y libxpm4 libxrender1 libgtk2.0-0 libnss3 libgconf-2-4 libxi6 libglu1 libxkbcommon-x11-0 libpangocairo-1.0-0 fonts-liberation
-          sudo apt-get install -y google-chrome-stable
-          CHROMEDRIVER_VERSION=$(curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE)
-          wget -N https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip
-          unzip chromedriver_linux64.zip
-          sudo mv chromedriver /usr/bin/chromedriver
-          sudo chmod +x /usr/bin/chromedriver
+    - name: Install dependencies
+      run: npm install
 
-      # Install Dependencies
-      - name: Install Node.js Dependencies
-        run: npm install
+    - name: Install Chrome
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y google-chrome-stable
 
-      # Start the application
-      - name: Start Application
-        run: npm start &
-        env:
-          CI: true
+    - name: Start React app
+      run: npm start & 
+      env:
+        CI: false
 
-      # Wait for Localhost
-      - name: Wait for Localhost
-        run: |
-          echo "Waiting for localhost to be ready..."
-          for i in {1..30}; do
-            curl -s http://localhost:3000 > /dev/null && echo "Localhost is ready!" && exit 0
-            echo "Waiting for localhost..."
-            sleep 5
-          done
-          echo "Localhost did not become ready in time!" && exit 1
+    - name: Wait for app to start
+      run: |
+        echo "Waiting for app to start..."
+        sleep 30
 
-      # Run Tests
-      - name: Run Selenium Tests
-        run: npm test
+    - name: Run Selenium tests
+      run: npm test
+      env:
+        SELENIUM_BROWSER: chrome
+        SELENIUM_REMOTE_URL: http://localhost:4444/wd/hub
 
-      # Upload Test Report
-      - name: Upload Test Report
-        uses: actions/upload-artifact@v3
-        with:
-          name: selenium-test-report
-          path: iPlant-tests-report/
+    - name: Upload test results
+      if: always()
+      uses: actions/upload-artifact@v2
+      with:
+        name: test-results
+        path: iPlant-tests-report/
