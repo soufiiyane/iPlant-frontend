@@ -38,29 +38,28 @@ const LoginPage = () => {
       });
 
       const data = await response.json();
+      const userData = JSON.parse(data.body);
 
       if (!response.ok) {
-        throw new Error(data.message || 'Une erreur est survenue lors de la connexion');
+        throw new Error('Login failed');
       }
 
       // Store user data in localStorage
-      localStorage.setItem('user', JSON.stringify(data));
+      localStorage.setItem('userData', JSON.stringify({
+        firstName: userData.FirstName,
+        lastName: userData.LastName,
+        userId: userData.Email,
+        userImageUrl: userData.ImageUrl
+      }));
       
-      // Show success message (optional)
-      const successMessage = document.getElementById('success-message');
-      if (successMessage) {
-        successMessage.classList.remove('hidden');
-        await new Promise(resolve => setTimeout(resolve, 1000)); // Wait 1 second
-      }
-
       // Navigate back to the previous page
       navigate(from, { replace: true });
     } catch (err) {
-      setError(err.message || 'Email ou mot de passe invalide');
+      setError('Invalid email or password');
     } finally {
       setIsLoading(false);
     }
-  };
+};
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
