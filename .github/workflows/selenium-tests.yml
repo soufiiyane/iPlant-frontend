@@ -21,8 +21,20 @@ jobs:
         with:
           node-version: 18
 
-      # Install dependencies
-      - name: Install Dependencies
+      # Install Chrome and Dependencies
+      - name: Install Chrome Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libxpm4 libxrender1 libgtk2.0-0 libnss3 libgconf-2-4 libxi6 libglu1 libxkbcommon-x11-0 libpangocairo-1.0-0 fonts-liberation
+          sudo apt-get install -y google-chrome-stable
+          CHROMEDRIVER_VERSION=$(curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE)
+          wget -N https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip
+          unzip chromedriver_linux64.zip
+          sudo mv chromedriver /usr/bin/chromedriver
+          sudo chmod +x /usr/bin/chromedriver
+
+      # Install Dependencies
+      - name: Install Node.js Dependencies
         run: npm install
 
       # Start the application
@@ -31,7 +43,7 @@ jobs:
         env:
           CI: true
 
-      # Wait for the application to be ready
+      # Wait for Localhost
       - name: Wait for Localhost
         run: |
           echo "Waiting for localhost to be ready..."
@@ -42,7 +54,7 @@ jobs:
           done
           echo "Localhost did not become ready in time!" && exit 1
 
-      # Run tests
+      # Run Tests
       - name: Run Selenium Tests
         run: npm test
 
