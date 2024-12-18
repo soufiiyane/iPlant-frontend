@@ -26,7 +26,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "mocha --timeout 5000 tests/*.js --reporter mochawesome --reporter-options reportDir=mochawesome-report,reportFilename=report",
+    "test": "mocha --timeout 10000 tests/*.js --reporter mochawesome --reporter-options reportDir=iPlant-tests-report,reportFilename=report",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

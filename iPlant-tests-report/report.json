@@ -5,9 +5,9 @@
     "passes": 1,
     "pending": 0,
     "failures": 0,
-    "start": "2024-12-18T16:07:03.868Z",
-    "end": "2024-12-18T16:07:06.469Z",
-    "duration": 2601,
+    "start": "2024-12-18T16:43:38.458Z",
+    "end": "2024-12-18T16:43:41.072Z",
+    "duration": 2614,
     "testsRegistered": 1,
     "passPercent": 100,
     "pendingPercent": 0,
@@ -18,7 +18,7 @@
   },
   "results": [
     {
-      "uuid": "fa3ef365-0306-44e3-b4c8-77c59ac111d3",
+      "uuid": "12d4484b-57ff-4d8d-b0f1-12aa1ea674b0",
       "title": "",
       "fullFile": "/home/ubuntu/Desktop/iPlant-frontend/tests/e2e.test.js",
       "file": "/tests/e2e.test.js",
@@ -27,7 +27,7 @@
       "tests": [],
       "suites": [
         {
-          "uuid": "3f19822f-a4de-4095-8d49-ef2d67b27291",
+          "uuid": "b42b9e18-7c35-48d1-ad5f-adf8b76af601",
           "title": "React App E2E Tests",
           "fullFile": "/home/ubuntu/Desktop/iPlant-frontend/tests/e2e.test.js",
           "file": "/tests/e2e.test.js",
@@ -36,7 +36,7 @@
               "title": "\"before all\" hook in \"React App E2E Tests\"",
               "fullTitle": "React App E2E Tests \"before all\" hook in \"React App E2E Tests\"",
               "timedOut": false,
-              "duration": 560,
+              "duration": 574,
               "state": null,
               "speed": null,
               "pass": false,
@@ -45,8 +45,8 @@
               "context": null,
               "code": "driver = await new Builder().forBrowser('chrome').build();",
               "err": {},
-              "uuid": "e9ac5b74-4f9d-4829-bb54-a5a3c93269a8",
-              "parentUUID": "3f19822f-a4de-4095-8d49-ef2d67b27291",
+              "uuid": "97a66aa9-4932-4d61-a6fc-76acdb74b5df",
+              "parentUUID": "b42b9e18-7c35-48d1-ad5f-adf8b76af601",
               "isHook": true,
               "skipped": false
             }
@@ -56,7 +56,7 @@
               "title": "\"after all\" hook in \"React App E2E Tests\"",
               "fullTitle": "React App E2E Tests \"after all\" hook in \"React App E2E Tests\"",
               "timedOut": false,
-              "duration": 56,
+              "duration": 55,
               "state": null,
               "speed": null,
               "pass": false,
@@ -65,8 +65,8 @@
               "context": null,
               "code": "await driver.quit();",
               "err": {},
-              "uuid": "e871cf9a-9328-4762-a51c-e59f41ea59a5",
-              "parentUUID": "3f19822f-a4de-4095-8d49-ef2d67b27291",
+              "uuid": "0ae4735c-6705-4650-aaf6-77b3afb628dd",
+              "parentUUID": "b42b9e18-7c35-48d1-ad5f-adf8b76af601",
               "isHook": true,
               "skipped": false
             }
@@ -76,7 +76,7 @@
               "title": "should load the homepage",
               "fullTitle": "React App E2E Tests should load the homepage",
               "timedOut": false,
-              "duration": 1977,
+              "duration": 1978,
               "state": "passed",
               "speed": "slow",
               "pass": true,
@@ -85,23 +85,23 @@
               "context": null,
               "code": "await driver.get('http://localhost:3000'); // Replace with your React app URL\nconst title = await driver.getTitle();\nassert.strictEqual(title, 'React App');",
               "err": {},
-              "uuid": "7e687233-1f2f-4b5d-816f-5cfcc900ad1f",
-              "parentUUID": "3f19822f-a4de-4095-8d49-ef2d67b27291",
+              "uuid": "6034aec2-6989-40b8-ade6-f85ce0893d1c",
+              "parentUUID": "b42b9e18-7c35-48d1-ad5f-adf8b76af601",
               "isHook": false,
               "skipped": false
             }
           ],
           "suites": [],
           "passes": [
-            "7e687233-1f2f-4b5d-816f-5cfcc900ad1f"
+            "6034aec2-6989-40b8-ade6-f85ce0893d1c"
           ],
           "failures": [],
           "pending": [],
           "skipped": [],
-          "duration": 1977,
+          "duration": 1978,
           "root": false,
           "rootEmpty": false,
-          "_timeout": 5000
+          "_timeout": 10000
         }
       ],
       "passes": [],
@@ -111,7 +111,7 @@
       "duration": 0,
       "root": true,
       "rootEmpty": true,
-      "_timeout": 5000
+      "_timeout": 10000
     }
   ],
   "meta": {
@@ -132,7 +132,7 @@
     },
     "marge": {
       "options": {
-        "reportDir": "mochawesome-report",
+        "reportDir": "iPlant-tests-report",
         "reportFilename": "report"
       },
       "version": "6.2.0"
