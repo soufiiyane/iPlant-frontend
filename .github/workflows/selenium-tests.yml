@@ -1,4 +1,4 @@
-name: Selenium Tests
+name: Run Selenium Tests
 
 on:
   push:
@@ -25,11 +25,26 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
+      # Start the application
+      - name: Start Application
+        run: npm start &
+        env:
+          CI: true
+
+      # Wait for the application to be ready
+      - name: Wait for Localhost
+        run: |
+          echo "Waiting for localhost to be ready..."
+          for i in {1..30}; do
+            curl -s http://localhost:3000 > /dev/null && echo "Localhost is ready!" && exit 0
+            echo "Waiting for localhost..."
+            sleep 5
+          done
+          echo "Localhost did not become ready in time!" && exit 1
+
       # Run tests
       - name: Run Selenium Tests
         run: npm test
-        env:
-          CI: true
 
       # Upload Test Report
       - name: Upload Test Report
