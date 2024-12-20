@@ -1,11 +1,10 @@
+import "./login.cy"
+import "./register.cy"
+
 describe('template spec', () => {
+
   it('passes', () => {
-    cy.visit('/')
+    cy.visit('/plant/JU8JQUh8zsR')
   })
-  it('passes', () => {
-    cy.visit('/services')
-  })
-  it('passes', () => {
-    cy.visit('/plant/JU8JQU8zsxR')
-  })
+ 
 })

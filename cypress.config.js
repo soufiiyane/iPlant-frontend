@@ -18,7 +18,7 @@ module.exports = defineConfig({
       
       return {
         ...pluginConfig,
-        // any additional configuration
+
       }
     },
     baseUrl: 'http://localhost:3000',
