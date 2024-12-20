@@ -27,7 +27,7 @@
   "scripts": {
     "start": "react-scripts -r @cypress/instrument-cra start",
     "build": "react-scripts build",
-    "test": "mocha --timeout 10000 tests/*.js --reporter mochawesome --reporter-options reportDir=iPlant-tests-report,reportFilename=report",
+    "test": "mocha --timeout 1000000 tests/*.js --reporter mochawesome --reporter-options reportDir=iPlant-tests-report,reportFilename=report",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

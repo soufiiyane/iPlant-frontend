@@ -5,9 +5,9 @@
     "passes": 1,
     "pending": 0,
     "failures": 0,
-    "start": "2024-12-20T10:05:31.129Z",
-    "end": "2024-12-20T10:05:33.969Z",
-    "duration": 2840,
+    "start": "2024-12-20T13:54:27.915Z",
+    "end": "2024-12-20T13:54:40.790Z",
+    "duration": 12875,
     "testsRegistered": 1,
     "passPercent": 100,
     "pendingPercent": 0,
@@ -18,7 +18,7 @@
   },
   "results": [
     {
-      "uuid": "743b0ecc-d1ec-4a0b-99c5-a50027fcd668",
+      "uuid": "2bd36382-a1d8-4813-b22e-96f0ff657ff8",
       "title": "",
       "fullFile": "/home/ubuntu/Desktop/iPlant-frontend/tests/e2e.test.js",
       "file": "/tests/e2e.test.js",
@@ -27,7 +27,7 @@
       "tests": [],
       "suites": [
         {
-          "uuid": "1732f59c-8a6a-40fa-8736-5c19b6c65a4e",
+          "uuid": "5a5fa5d2-e748-4353-852b-5e7180116307",
           "title": "React App E2E Tests",
           "fullFile": "/home/ubuntu/Desktop/iPlant-frontend/tests/e2e.test.js",
           "file": "/tests/e2e.test.js",
@@ -36,7 +36,7 @@
               "title": "\"before all\" hook in \"React App E2E Tests\"",
               "fullTitle": "React App E2E Tests \"before all\" hook in \"React App E2E Tests\"",
               "timedOut": false,
-              "duration": 582,
+              "duration": 1637,
               "state": null,
               "speed": null,
               "pass": false,
@@ -45,8 +45,8 @@
               "context": null,
               "code": "const options = new chrome.Options();\noptions.addArguments('--headless');\noptions.addArguments('--no-sandbox');\noptions.addArguments('--disable-dev-shm-usage');\noptions.addArguments('--disable-gpu');\ndriver = await new Builder()\n  .forBrowser('chrome')\n  .setChromeOptions(options)\n  .build();",
               "err": {},
-              "uuid": "6aa9f179-0bf3-4517-86b1-ab5d5a4ef3c6",
-              "parentUUID": "1732f59c-8a6a-40fa-8736-5c19b6c65a4e",
+              "uuid": "4bc70744-0dc2-4100-951c-c0a6e51f11bb",
+              "parentUUID": "5a5fa5d2-e748-4353-852b-5e7180116307",
               "isHook": true,
               "skipped": false
             }
@@ -56,7 +56,7 @@
               "title": "\"after all\" hook in \"React App E2E Tests\"",
               "fullTitle": "React App E2E Tests \"after all\" hook in \"React App E2E Tests\"",
               "timedOut": false,
-              "duration": 52,
+              "duration": 58,
               "state": null,
               "speed": null,
               "pass": false,
@@ -65,8 +65,8 @@
               "context": null,
               "code": "if (driver) {\n  await driver.quit();\n}",
               "err": {},
-              "uuid": "497551bb-5516-4c66-9c40-3d22e8577bfd",
-              "parentUUID": "1732f59c-8a6a-40fa-8736-5c19b6c65a4e",
+              "uuid": "4a35a0c8-481c-435a-bbaa-44959493eacb",
+              "parentUUID": "5a5fa5d2-e748-4353-852b-5e7180116307",
               "isHook": true,
               "skipped": false
             }
@@ -76,32 +76,32 @@
               "title": "should load the homepage",
               "fullTitle": "React App E2E Tests should load the homepage",
               "timedOut": false,
-              "duration": 2197,
+              "duration": 11161,
               "state": "passed",
               "speed": "slow",
               "pass": true,
               "fail": false,
               "pending": false,
               "context": null,
-              "code": "try {\n  await driver.get('http://localhost:3000');\n  // Wait for some element that you know exists on your page\n  await driver.wait(until.elementLocated(By.css('body')), 10000);\n  const title = await driver.getTitle();\n  assert.strictEqual(title, 'React App'); // Make sure this matches your actual page title\n} catch (error) {\n  console.error('Test failed:', error);\n  throw error;\n}",
+              "code": "try {\n  await driver.get('http://localhost:3000');\n  // Wait for some element that you know exists on your page\n  await driver.wait(until.elementLocated(By.css('body')), 1000000);\n  const title = await driver.getTitle();\n  assert.strictEqual(title, 'React App'); // Make sure this matches your actual page title\n} catch (error) {\n  console.error('Test failed:', error);\n  throw error;\n}",
               "err": {},
-              "uuid": "ce9807ed-4e0e-4cdd-b496-439e505bf1a3",
-              "parentUUID": "1732f59c-8a6a-40fa-8736-5c19b6c65a4e",
+              "uuid": "4ee26e1a-a9f8-4293-98a2-f29640a7b80b",
+              "parentUUID": "5a5fa5d2-e748-4353-852b-5e7180116307",
               "isHook": false,
               "skipped": false
             }
           ],
           "suites": [],
           "passes": [
-            "ce9807ed-4e0e-4cdd-b496-439e505bf1a3"
+            "4ee26e1a-a9f8-4293-98a2-f29640a7b80b"
           ],
           "failures": [],
           "pending": [],
           "skipped": [],
-          "duration": 2197,
+          "duration": 11161,
           "root": false,
           "rootEmpty": false,
-          "_timeout": 10000
+          "_timeout": 1000000
         }
       ],
       "passes": [],
@@ -111,7 +111,7 @@
       "duration": 0,
       "root": true,
       "rootEmpty": true,
-      "_timeout": 10000
+      "_timeout": 1000000
     }
   ],
   "meta": {

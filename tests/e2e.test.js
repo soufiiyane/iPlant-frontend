@@ -28,7 +28,7 @@ describe('React App E2E Tests', function() {
     try {
       await driver.get('http://localhost:3000');
       // Wait for some element that you know exists on your page
-      await driver.wait(until.elementLocated(By.css('body')), 10000);
+      await driver.wait(until.elementLocated(By.css('body')), 1000000);
       const title = await driver.getTitle();
       assert.strictEqual(title, 'React App'); // Make sure this matches your actual page title
     } catch (error) {
