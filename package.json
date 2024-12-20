@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@alpinejs/intersect": "^3.14.1",
+    "@cypress/instrument-cra": "^1.4.0",
     "@headlessui/react": "^2.2.0",
     "@heroicons/react": "^2.2.0",
     "@testing-library/jest-dom": "^5.17.0",
@@ -24,7 +25,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "react-scripts -r @cypress/instrument-cra start",
     "build": "react-scripts build",
     "test": "mocha --timeout 10000 tests/*.js --reporter mochawesome --reporter-options reportDir=iPlant-tests-report,reportFilename=report",
     "eject": "react-scripts eject"
@@ -48,6 +49,8 @@
     ]
   },
   "devDependencies": {
+    "@cypress/code-coverage": "^3.13.9",
+    "babel-plugin-istanbul": "^7.0.0",
     "chromedriver": "^131.0.3",
     "mocha": "^11.0.1",
     "mochawesome": "^7.1.3",
