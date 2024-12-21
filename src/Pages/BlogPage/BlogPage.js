@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Search, Filter, ChevronLeft, ChevronRight } from 'lucide-react';
 import { NavLink } from "react-router-dom";
+import NavBar from '../../Components/NavBar/NavBar';
+import Footer from '../../Components/Footer/Footer';
 
 const BlogPage = () => {
   const [plants, setPlants] = useState([]);
@@ -62,7 +64,6 @@ const BlogPage = () => {
     setCurrentPage(1);
   }, [searchTerm, selectedProperties, plants]);
 
-  // Pagination Logic
   const indexOfLastPlant = currentPage * plantsPerPage;
   const indexOfFirstPlant = indexOfLastPlant - plantsPerPage;
   const currentPlants = filteredPlants.slice(indexOfFirstPlant, indexOfLastPlant);
@@ -89,7 +90,9 @@ const BlogPage = () => {
   );
 
   return (
-    <div className="mx-auto max-w-c-1315 px-4 md:px-8 xl:px-0">
+    <div>
+      <NavBar />
+      <div className="mx-auto max-w-c-1315 mt-20 px-4 md:px-8 xl:px-0">
       <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
         {/* Sidebar */}
         <div className="md:col-span-1 bg-gray-50 p-6 rounded-xl">
@@ -199,8 +202,10 @@ const BlogPage = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
-  );
+  </div>
+);
 };
 
 export default BlogPage;

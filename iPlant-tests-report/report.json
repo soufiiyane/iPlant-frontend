@@ -5,9 +5,9 @@
     "passes": 1,
     "pending": 0,
     "failures": 0,
-    "start": "2024-12-20T13:54:27.915Z",
-    "end": "2024-12-20T13:54:40.790Z",
-    "duration": 12875,
+    "start": "2024-12-21T15:54:56.192Z",
+    "end": "2024-12-21T15:54:57.883Z",
+    "duration": 1691,
     "testsRegistered": 1,
     "passPercent": 100,
     "pendingPercent": 0,
@@ -18,7 +18,7 @@
   },
   "results": [
     {
-      "uuid": "2bd36382-a1d8-4813-b22e-96f0ff657ff8",
+      "uuid": "c9e4476e-d68c-4a45-b128-15b540df067e",
       "title": "",
       "fullFile": "/home/ubuntu/Desktop/iPlant-frontend/tests/e2e.test.js",
       "file": "/tests/e2e.test.js",
@@ -27,7 +27,7 @@
       "tests": [],
       "suites": [
         {
-          "uuid": "5a5fa5d2-e748-4353-852b-5e7180116307",
+          "uuid": "8d849cbb-b419-4dcd-9794-057aa2c819d2",
           "title": "React App E2E Tests",
           "fullFile": "/home/ubuntu/Desktop/iPlant-frontend/tests/e2e.test.js",
           "file": "/tests/e2e.test.js",
@@ -36,7 +36,7 @@
               "title": "\"before all\" hook in \"React App E2E Tests\"",
               "fullTitle": "React App E2E Tests \"before all\" hook in \"React App E2E Tests\"",
               "timedOut": false,
-              "duration": 1637,
+              "duration": 588,
               "state": null,
               "speed": null,
               "pass": false,
@@ -45,8 +45,8 @@
               "context": null,
               "code": "const options = new chrome.Options();\noptions.addArguments('--headless');\noptions.addArguments('--no-sandbox');\noptions.addArguments('--disable-dev-shm-usage');\noptions.addArguments('--disable-gpu');\ndriver = await new Builder()\n  .forBrowser('chrome')\n  .setChromeOptions(options)\n  .build();",
               "err": {},
-              "uuid": "4bc70744-0dc2-4100-951c-c0a6e51f11bb",
-              "parentUUID": "5a5fa5d2-e748-4353-852b-5e7180116307",
+              "uuid": "7b43982a-7d3c-44aa-985e-8897737eb215",
+              "parentUUID": "8d849cbb-b419-4dcd-9794-057aa2c819d2",
               "isHook": true,
               "skipped": false
             }
@@ -56,7 +56,7 @@
               "title": "\"after all\" hook in \"React App E2E Tests\"",
               "fullTitle": "React App E2E Tests \"after all\" hook in \"React App E2E Tests\"",
               "timedOut": false,
-              "duration": 58,
+              "duration": 52,
               "state": null,
               "speed": null,
               "pass": false,
@@ -65,8 +65,8 @@
               "context": null,
               "code": "if (driver) {\n  await driver.quit();\n}",
               "err": {},
-              "uuid": "4a35a0c8-481c-435a-bbaa-44959493eacb",
-              "parentUUID": "5a5fa5d2-e748-4353-852b-5e7180116307",
+              "uuid": "3f05f185-d59a-4695-a4c3-3be31c722b22",
+              "parentUUID": "8d849cbb-b419-4dcd-9794-057aa2c819d2",
               "isHook": true,
               "skipped": false
             }
@@ -76,7 +76,7 @@
               "title": "should load the homepage",
               "fullTitle": "React App E2E Tests should load the homepage",
               "timedOut": false,
-              "duration": 11161,
+              "duration": 1044,
               "state": "passed",
               "speed": "slow",
               "pass": true,
@@ -85,20 +85,20 @@
               "context": null,
               "code": "try {\n  await driver.get('http://localhost:3000');\n  // Wait for some element that you know exists on your page\n  await driver.wait(until.elementLocated(By.css('body')), 1000000);\n  const title = await driver.getTitle();\n  assert.strictEqual(title, 'React App'); // Make sure this matches your actual page title\n} catch (error) {\n  console.error('Test failed:', error);\n  throw error;\n}",
               "err": {},
-              "uuid": "4ee26e1a-a9f8-4293-98a2-f29640a7b80b",
-              "parentUUID": "5a5fa5d2-e748-4353-852b-5e7180116307",
+              "uuid": "ac9a5ae4-3d73-4595-8752-b41611a7bf6b",
+              "parentUUID": "8d849cbb-b419-4dcd-9794-057aa2c819d2",
               "isHook": false,
               "skipped": false
             }
           ],
           "suites": [],
           "passes": [
-            "4ee26e1a-a9f8-4293-98a2-f29640a7b80b"
+            "ac9a5ae4-3d73-4595-8752-b41611a7bf6b"
           ],
           "failures": [],
           "pending": [],
           "skipped": [],
-          "duration": 11161,
+          "duration": 1044,
           "root": false,
           "rootEmpty": false,
           "_timeout": 1000000

@@ -2,5 +2,5 @@ projectKey=iPlant-frontend-cypress
 serverUrl=http://localhost:9000
 serverVersion=9.9.0.65466
 dashboardUrl=http://localhost:9000/dashboard?id=iPlant-frontend-cypress
-ceTaskId=AZPkwONH5xDQq70AaLHV
-ceTaskUrl=http://localhost:9000/api/ce/task?id=AZPkwONH5xDQq70AaLHV
+ceTaskId=AZPo9Mbk5xDQq70AaLHg
+ceTaskUrl=http://localhost:9000/api/ce/task?id=AZPo9Mbk5xDQq70AaLHg

@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { Disclosure, Transition } from '@headlessui/react';
 import { NavLink } from "react-router-dom";
+import NavBar from '../../Components/NavBar/NavBar';
+import Footer from '../../Components/Footer/Footer';
 
 // Comment Form Component
 const CommentForm = ({ plantId, onCommentAdded }) => {
@@ -72,7 +74,7 @@ const CommentForm = ({ plantId, onCommentAdded }) => {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="inline-flex justify-center items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="bg-titlebgdark text-white py-2"
           >
             {isSubmitting ? (
               <>
@@ -86,6 +88,7 @@ const CommentForm = ({ plantId, onCommentAdded }) => {
               'Publier le commentaire'
             )}
           </button>
+          <hr/>
         </div>
       </form>
     </div>
@@ -96,7 +99,7 @@ const CommentForm = ({ plantId, onCommentAdded }) => {
 const AccordionSection = ({ title, items }) => (
   <Disclosure as="div" className="mt-4">
     {({ open }) => (
-      <div className="bg-white rounded-lg shadow-sm">
+      <div className="bg-white rounded-lg">
         <Disclosure.Button className="flex justify-between w-full px-4 py-3 text-lg font-medium text-left text-gray-900 bg-gray-50 rounded-lg hover:bg-gray-100 focus:outline-none focus-visible:ring focus-visible:ring-emerald-500 focus-visible:ring-opacity-50">
           <span>{title}</span>
           <svg
@@ -181,6 +184,8 @@ const DetailPage = () => {
   if (!plant) return null;
 
   return (
+    <div>
+    <NavBar/>
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <NavLink 
@@ -193,7 +198,7 @@ const DetailPage = () => {
           Retour
         </NavLink>
 
-        <div className="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div className="bg-white rounded-xl  overflow-hidden">
           <div className="md:flex">
             <div className="md:w-1/2">
               <div className="relative h-[600px]">
@@ -223,7 +228,7 @@ const DetailPage = () => {
                   <div className="bg-gray-50 rounded-lg p-4">
                     <p className="text-gray-600">
                       Veuillez vous{' '}
-                      <NavLink to="/login" state={{ from: `/plant/${id}` }} className="text-emerald-600 hover:text-emerald-700">
+                      <NavLink to="/login" state={{ from: `/plant/${id}` }} className="text-black">
                         connecter
                       </NavLink>
                       {' '}pour laisser un commentaire.
@@ -238,7 +243,7 @@ const DetailPage = () => {
                 ) : (
                   <div className="space-y-4 mt-6">
                     {plant?.Comments.map((comment, index) => (
-                      <div key={index} className="bg-gray-50 rounded-lg p-4 transition-all hover:bg-gray-100">
+                      <div key={index} className="bg-gray-50 rounded-lg p-2 transition-all hover:bg-gray-100">
                         <div className="flex items-start">
                           <img 
                             src={comment?.M?.UserImageUrl?.S || '/default-avatar.png'} 
@@ -250,13 +255,11 @@ const DetailPage = () => {
                               <p className="font-semibold text-gray-900">
                                 {comment?.M?.FirstName?.S || 'Anonymous'} {comment?.M?.LastName?.S || ''}
                               </p>
-                              <span className="text-sm text-gray-500">
-                                {new Date(comment?.M?.CreatedAt?.S).toLocaleDateString()}
-                              </span>
                             </div>
                             <p className="text-gray-600 mt-1">{comment?.M?.Text?.S || ''}</p>
                           </div>
                         </div>
+                        <hr/>
                       </div>
                     ))}
                   </div>
@@ -266,6 +269,8 @@ const DetailPage = () => {
           </div>
         </div>
       </div>
+    </div>
+    <Footer/>
     </div>
   );
 };
