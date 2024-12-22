@@ -64,13 +64,13 @@ function NavBar({ stickyMenu }) {
             <NavLink to="/blog" className="hover:text-primary transition-colors">Blog</NavLink>
             <NavLink to="/about" className="block py-2 hover:text-primary transition-colors">About</NavLink>
             {isLoggedIn ? (
-              <button onClick={handleLogout} className="hover:text-primary transition-colors">
-                Logout
-              </button>
+                <button onClick={handleLogout} id="logout-desktop" className="hover:text-primary transition-colors">
+                  Logout
+                </button>
             ) : (
-              <button onClick={handleLoginRedirect} className="hover:text-primary transition-colors">
-                Login
-              </button>
+                <button onClick={handleLoginRedirect} className="hover:text-primary transition-colors">
+                  Login
+                </button>
             )}
           </nav>
 
@@ -90,13 +90,14 @@ function NavBar({ stickyMenu }) {
           <NavLink to="/blog" className="block py-2 hover:text-primary transition-colors">Blog</NavLink>
           <NavLink to="/about" className="block py-2 hover:text-primary transition-colors">About</NavLink>
           {isLoggedIn ? (
-            <button onClick={handleLogout} className="block py-2 hover:text-primary transition-colors">
-              Logout
-            </button>
+              <button onClick={handleLogout} id="logout-mobile"
+                      className="block py-2 hover:text-primary transition-colors">
+                Logout
+              </button>
           ) : (
-            <button onClick={handleLoginRedirect} className="block py-2 hover:text-primary transition-colors">
+              <button onClick={handleLoginRedirect} className="block py-2 hover:text-primary transition-colors">
                 Login
-            </button>
+              </button>
           )}
         </nav>
       </div>
