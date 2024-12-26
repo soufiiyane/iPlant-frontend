@@ -7,6 +7,7 @@ describe('React App E2E Tests', function() {
 
   before(async function() {
     const options = new chrome.Options();
+
     options.addArguments('--headless');
     options.addArguments('--no-sandbox');
     options.addArguments('--disable-dev-shm-usage');
