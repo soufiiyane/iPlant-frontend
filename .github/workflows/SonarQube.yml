@@ -9,7 +9,7 @@ on:
 
 jobs:
   sonarQubeScan1:
-    name: sonarQubeScan1
+    name: SonarQube
     runs-on: ubuntu-latest
 
     steps:
@@ -30,7 +30,7 @@ jobs:
       # Run Cypress tests with specific spec file
       - name: Run Cypress tests
         run: |
-          npx cypress run --spec "cypress/e2e/spec.cy.js" --reporter mochawesome --reporter-options reportDir=coverage/cypress/e2e,overwrite=true,html=false,json=true
+          npx cypress run --spec "cypress/e2e/spec.cy.js"
 
       # Debug step to verify environment variables
       - name: Debug SonarQube Configuration
@@ -39,17 +39,10 @@ jobs:
           echo "Token exists: ${{ secrets.SONAR_TOKEN != '' }}"
 
       # Run SonarQube scan with the new configuration
-      - name: SonarQube Scan 1
+      - name: SonarQube
         uses: SonarSource/sonarqube-scan-action@v4
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}  # Analysis token associated with your project
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
         with:
-          projectBaseDir: .  # The root directory of your iPlant-frontend project
-
-      # Add error handling for SonarQube status
-      - name: Check SonarQube Status
-        if: failure()
-        run: |
-          echo "SonarQube scan failed. Please check the configuration and logs above."
-          exit 1
+          projectBaseDir: .
