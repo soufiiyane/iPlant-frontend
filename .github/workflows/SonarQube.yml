@@ -30,7 +30,7 @@ jobs:
       # Run Cypress tests with specific spec file
       - name: Run Cypress tests
         run: |
-          npx cypress run --spec "cypress/e2e/spec.cy.js"
+          npx cypress run --spec "cypress/e2e/spec.cy.js" --reporter mochawesome --reporter-options reportDir=coverage/cypress/e2e,overwrite=true,html=false,json=true
 
       # Debug step to verify environment variables
       - name: Debug SonarQube Configuration
