@@ -14,8 +14,17 @@ jobs:
 
       # Install dependencies
       - name: Install Dependencies
+        run: npm install
+
+      # Build the application (if needed)
+      - name: Build
+        run: npm run build
+
+      # Start the application in the background
+      - name: Start application
         run: |
-          npm install
+          npm start & 
+          sleep 30 # Give the server some time to start
 
       # Run Cypress tests with specific spec file
       - name: Run Cypress tests
@@ -25,5 +34,5 @@ jobs:
       # Run SonarQube scan
       - uses: sonarsource/sonarqube-scan-action@master
         env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+          SONAR_TOKEN: \${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: \${{ secrets.SONAR_HOST_URL }}
