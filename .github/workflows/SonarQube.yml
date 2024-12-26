@@ -27,8 +27,29 @@ jobs:
         run: |
           npx cypress run --spec "cypress/e2e/spec.cy.js"
 
-      # Run SonarQube scan
-      - uses: sonarsource/sonarqube-scan-action@master
+      # Debug step to verify environment variables
+      - name: Debug SonarQube Configuration
+        run: |
+          echo "SonarQube URL: ${{ secrets.SONAR_HOST_URL }}"
+          echo "Token exists: ${{ secrets.SONAR_TOKEN != '' }}"
+
+      # Run SonarQube scan with debug enabled
+      - name: SonarQube Scan
+        uses: sonarsource/sonarqube-scan-action@master
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+          SONAR_SCANNER_OPTS: "-X" # Enable debug mode
+        with:
+          args: >
+            -Dsonar.projectKey=iPlant-FrontEnd
+            -Dsonar.sources=src
+            -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }}
+            -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+
+      # Add error handling
+      - name: Check SonarQube Status
+        if: failure()
+        run: |
+          echo "SonarQube scan failed. Please check the configuration and logs above."
+          exit 1
