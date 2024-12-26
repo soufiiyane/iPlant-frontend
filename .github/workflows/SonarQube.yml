@@ -16,10 +16,6 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
-      # Build the application (if needed)
-      - name: Build
-        run: npm run build
-
       # Start the application in the background
       - name: Start application
         run: |
