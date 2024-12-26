@@ -7,10 +7,6 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
 
-env:
-  REACT_APP_API: ${{ secrets.REACT_APP_API }}
-  REACT_APP_FILES: ${{ secrets.REACT_APP_FILES }}
-
 jobs:
   build:
     runs-on: ubuntu-latest
